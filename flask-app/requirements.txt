@@ -1,4 +1,6 @@
-flask 
-psycopg2-binary 
+flask
+psycopg2-binary
 flask-login
 werkzeug
+gunicorn
+python-dotenv

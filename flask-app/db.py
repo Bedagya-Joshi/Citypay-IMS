@@ -1,10 +1,14 @@
 import psycopg2
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def get_db_connection():
     conn = psycopg2.connect(
-        host="localhost",
-        database="citypay_ims",
-        user="citypay_ims",
-        password="C!typ@y123#"
+        host=os.getenv("DB_HOST"),
+        database=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD")
     )
     return conn

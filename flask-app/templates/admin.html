@@ -8,10 +8,8 @@
     <div class="alert alert-info">{{ message }}</div>
 {% endif %}
 
-<!-- Add User Button -->
 <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addUserModal">Add New User</button>
 
-<!-- Users Table -->
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -27,7 +25,6 @@
             <td>{{ user[2] }}</td>
             <td>
                 <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#updatePasswordModal{{ user[0] }}">Update Password</button>
-                <!-- Update Password Modal -->
                 <div class="modal fade" id="updatePasswordModal{{ user[0] }}" tabindex="-1" aria-labelledby="updatePasswordModalLabel{{ user[0] }}" aria-hidden="true">
                   <div class="modal-dialog">
                     <form method="POST">
@@ -52,9 +49,7 @@
                   </div>
                 </div>
 
-                <!-- Delete User Button -->
                 <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteUserModal{{ user[0] }}">Delete User</button>
-                <!-- Delete User Modal -->
                 <div class="modal fade" id="deleteUserModal{{ user[0] }}" tabindex="-1" aria-labelledby="deleteUserModalLabel{{ user[0] }}" aria-hidden="true">
                   <div class="modal-dialog">
                     <form method="POST">
@@ -85,7 +80,6 @@
     </tbody>
 </table>
 
-<!-- Add User Modal -->
 <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form method="POST">

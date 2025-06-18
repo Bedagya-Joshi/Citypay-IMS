@@ -28,7 +28,6 @@
             {% if current_user.role == 'user' %}
             <td>
                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#requestModal{{ item[0] }}">Request</button>
-                <!-- Request Modal -->
                 <div class="modal fade" id="requestModal{{ item[0] }}" tabindex="-1" aria-labelledby="requestModalLabel{{ item[0] }}" aria-hidden="true">
                   <div class="modal-dialog">
                     <form method="POST">

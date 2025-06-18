@@ -8,13 +8,11 @@
     <div class="alert alert-info">{{ message }}</div>
 {% endif %}
 
-<!-- Add Item and Add Category Buttons -->
 <div class="mb-3">
     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addItemModal">Add Item</button>
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category</button>
 </div>
 
-<!-- Items Table -->
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -31,11 +29,8 @@
             <td>{{ item[2] }}</td>
             <td>{{ item[3] }}</td>
             <td>
-                <!-- Add Quantity Button -->
                 <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addQtyModal{{ item[0] }}">Add</button>
-                <!-- Remove Quantity Button -->
                 <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeQtyModal{{ item[0] }}">Remove</button>
-                <!-- Add Quantity Modal -->
                 <div class="modal fade" id="addQtyModal{{ item[0] }}" tabindex="-1" aria-labelledby="addQtyModalLabel{{ item[0] }}" aria-hidden="true">
                   <div class="modal-dialog">
                     <form method="POST">
@@ -59,7 +54,6 @@
                     </form>
                   </div>
                 </div>
-                <!-- Remove Quantity Modal -->
                 <div class="modal fade" id="removeQtyModal{{ item[0] }}" tabindex="-1" aria-labelledby="removeQtyModalLabel{{ item[0] }}" aria-hidden="true">
                   <div class="modal-dialog">
                     <form method="POST">
@@ -89,7 +83,6 @@
     </tbody>
 </table>
 
-<!-- Add Item Modal -->
 <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form method="POST">
@@ -125,7 +118,6 @@
   </div>
 </div>
 
-<!-- Add Category Modal -->
 <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form method="POST">
