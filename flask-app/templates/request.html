@@ -3,5 +3,103 @@
 {% block title %}Requested History - CityPay IMS{% endblock %}
 {% block content %}
 <h2>Requested History</h2>
-<!-- Requested history table/list goes here -->
+
+{% if message %}
+    <div class="alert alert-info">{{ message }}</div>
+{% endif %}
+
+<!-- Filter by Status -->
+<form method="get" class="mb-3">
+    <label for="status" class="form-label">Filter by Status:</label>
+    <select name="status" id="status" class="form-select d-inline w-auto" onchange="this.form.submit()">
+        <option value="All" {% if filter_status == 'All' %}selected{% endif %}>All</option>
+        <option value="Pending" {% if filter_status == 'Pending' %}selected{% endif %}>Pending</option>
+        <option value="Approved" {% if filter_status == 'Approved' %}selected{% endif %}>Approved</option>
+        <option value="Rejected" {% if filter_status == 'Rejected' %}selected{% endif %}>Rejected</option>
+    </select>
+</form>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date/Time Requested</th>
+            <th>Username</th>
+            <th>Item Name</th>
+            <th>Reason</th>
+            <th>Status</th>
+            {% if current_user.role == 'admin' %}
+            <th>Actions</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for req in requests %}
+        <tr>
+            <td>{{ req[1].strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ req[2] }}</td>
+            <td>{{ req[3] }}</td>
+            <td>{{ req[4] }}</td>
+            <td>{{ req[5] }}</td>
+            {% if current_user.role == 'admin' and req[5] == 'Pending' %}
+            <td>
+                <!-- Approve Button -->
+                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#approveModal{{ req[0] }}">Approve</button>
+                <!-- Reject Button -->
+                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal{{ req[0] }}">Reject</button>
+                <!-- Approve Modal -->
+                <div class="modal fade" id="approveModal{{ req[0] }}" tabindex="-1" aria-labelledby="approveModalLabel{{ req[0] }}" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <form method="POST">
+                        <input type="hidden" name="action" value="approve">
+                        <input type="hidden" name="req_id" value="{{ req[0] }}">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="approveModalLabel{{ req[0] }}">Approve Request</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Reason</label>
+                                <textarea class="form-control" name="reason" required></textarea>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Approve</button>
+                          </div>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+                <!-- Reject Modal -->
+                <div class="modal fade" id="rejectModal{{ req[0] }}" tabindex="-1" aria-labelledby="rejectModalLabel{{ req[0] }}" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <form method="POST">
+                        <input type="hidden" name="action" value="reject">
+                        <input type="hidden" name="req_id" value="{{ req[0] }}">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="rejectModalLabel{{ req[0] }}">Reject Request</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Reason</label>
+                                <textarea class="form-control" name="reason" required></textarea>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Reject</button>
+                          </div>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+            </td>
+            {% elif current_user.role == 'admin' %}
+            <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

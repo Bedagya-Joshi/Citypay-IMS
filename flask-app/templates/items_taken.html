@@ -3,5 +3,22 @@
 {% block title %}Item Taken History - CityPay IMS{% endblock %}
 {% block content %}
 <h2>Item Taken History</h2>
-<!-- History table/list goes here -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date Approved</th>
+            <th>Item Name</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in taken_items %}
+        <tr>
+            <td>{{ row[0].strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

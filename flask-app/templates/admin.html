@@ -3,5 +3,119 @@
 {% block title %}Administrator - CityPay IMS{% endblock %}
 {% block content %}
 <h2>Administrator</h2>
-<!-- Admin controls go here -->
+
+{% if message %}
+    <div class="alert alert-info">{{ message }}</div>
+{% endif %}
+
+<!-- Add User Button -->
+<button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addUserModal">Add New User</button>
+
+<!-- Users Table -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Update Password</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user[1] }}</td>
+            <td>{{ user[2] }}</td>
+            <td>
+                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#updatePasswordModal{{ user[0] }}">Update Password</button>
+                <!-- Update Password Modal -->
+                <div class="modal fade" id="updatePasswordModal{{ user[0] }}" tabindex="-1" aria-labelledby="updatePasswordModalLabel{{ user[0] }}" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <form method="POST">
+                        <input type="hidden" name="action" value="update_password">
+                        <input type="hidden" name="user_id" value="{{ user[0] }}">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="updatePasswordModalLabel{{ user[0] }}">Update Password for {{ user[1] }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="new_password{{ user[0] }}" class="form-label">New Password</label>
+                                <input type="password" class="form-control" name="new_password" id="new_password{{ user[0] }}" required>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                          </div>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+
+                <!-- Delete User Button -->
+                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteUserModal{{ user[0] }}">Delete User</button>
+                <!-- Delete User Modal -->
+                <div class="modal fade" id="deleteUserModal{{ user[0] }}" tabindex="-1" aria-labelledby="deleteUserModalLabel{{ user[0] }}" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <form method="POST">
+                        <input type="hidden" name="action" value="delete_user">
+                        <input type="hidden" name="user_id" value="{{ user[0] }}">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="deleteUserModalLabel{{ user[0] }}">Delete User {{ user[1] }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="admin_password{{ user[0] }}" class="form-label">Enter your admin password to confirm:</label>
+                                <input type="password" class="form-control" name="admin_password" id="admin_password{{ user[0] }}" required>
+                            </div>
+                            <div class="alert alert-danger">This action cannot be undone!</div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Delete User</button>
+                          </div>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="POST">
+        <input type="hidden" name="action" value="add_user">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" required>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="is_admin" id="is_admin">
+                <label class="form-check-label" for="is_admin">
+                    Is this admin?
+                </label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Add User</button>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
 {% endblock %}

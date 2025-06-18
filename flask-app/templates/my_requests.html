@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block navbar %}{% include "navbar.html" %}{% endblock %}
+{% block title %}My Requests - CityPay IMS{% endblock %}
+{% block content %}
+<h2>My Requests</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date of Request</th>
+            <th>Item Name</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Reason</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for req in my_requests %}
+        <tr>
+            <td>{{ req[0].strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ req[1] }}</td>
+            <td>{{ req[2] }}</td>
+            <td>{{ req[3] }}</td>
+            <td>
+                {% if req[3] == 'Pending' %}
+                    <!-- Empty for pending -->
+                {% else %}
+                    {{ req[4] }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

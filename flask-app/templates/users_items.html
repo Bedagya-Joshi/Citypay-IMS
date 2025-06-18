@@ -3,5 +3,40 @@
 {% block title %}View Users Items - CityPay IMS{% endblock %}
 {% block content %}
 <h2>View Users Items</h2>
-<!-- Users items table/list goes here -->
+
+<form method="POST" class="mb-4">
+    <label for="user_id" class="form-label">Select User:</label>
+    <select name="user_id" id="user_id" class="form-select d-inline w-auto" onchange="this.form.submit()" required>
+        <option value="">-- Select User --</option>
+        {% for user in users %}
+            <option value="{{ user[0] }}" {% if selected_user_id and user[0]|string == selected_user_id|string %}selected{% endif %}>{{ user[1] }}</option>
+        {% endfor %}
+    </select>
+    <noscript><button type="submit" class="btn btn-primary btn-sm">Show</button></noscript>
+</form>
+
+{% if items_history %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date Approved</th>
+            <th>Item Name</th>
+            <th>Item ID</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in items_history %}
+        <tr>
+            <td>{{ row[0].strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% elif selected_user_id %}
+<div class="alert alert-info">No approved items found for this user.</div>
+{% endif %}
 {% endblock %}

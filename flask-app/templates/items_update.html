@@ -3,5 +3,149 @@
 {% block title %}Item Update - CityPay IMS{% endblock %}
 {% block content %}
 <h2>Item Update</h2>
-<!-- Item update form/table goes here -->
+
+{% if message %}
+    <div class="alert alert-info">{{ message }}</div>
+{% endif %}
+
+<!-- Add Item and Add Category Buttons -->
+<div class="mb-3">
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addItemModal">Add Item</button>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category</button>
+</div>
+
+<!-- Items Table -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[3] }}</td>
+            <td>
+                <!-- Add Quantity Button -->
+                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addQtyModal{{ item[0] }}">Add</button>
+                <!-- Remove Quantity Button -->
+                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeQtyModal{{ item[0] }}">Remove</button>
+                <!-- Add Quantity Modal -->
+                <div class="modal fade" id="addQtyModal{{ item[0] }}" tabindex="-1" aria-labelledby="addQtyModalLabel{{ item[0] }}" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <form method="POST">
+                        <input type="hidden" name="action" value="add_quantity">
+                        <input type="hidden" name="item_id" value="{{ item[0] }}">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="addQtyModalLabel{{ item[0] }}">Add Quantity to {{ item[1] }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Quantity</label>
+                                <input type="number" class="form-control" name="quantity" min="1" required>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Add</button>
+                          </div>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+                <!-- Remove Quantity Modal -->
+                <div class="modal fade" id="removeQtyModal{{ item[0] }}" tabindex="-1" aria-labelledby="removeQtyModalLabel{{ item[0] }}" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <form method="POST">
+                        <input type="hidden" name="action" value="remove_quantity">
+                        <input type="hidden" name="item_id" value="{{ item[0] }}">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="removeQtyModalLabel{{ item[0] }}">Remove Quantity from {{ item[1] }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Quantity</label>
+                                <input type="number" class="form-control" name="quantity" min="1" required>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                          </div>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Add Item Modal -->
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="POST">
+        <input type="hidden" name="action" value="add_item">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addItemModalLabel">Add New Item</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+                <label class="form-label">Item Name</label>
+                <input type="text" class="form-control" name="item_name" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Category</label>
+                <select class="form-select" name="category_id" required>
+                    {% for cat in categories %}
+                        <option value="{{ cat[0] }}">{{ cat[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Quantity</label>
+                <input type="number" class="form-control" name="quantity" min="1" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Add Item</button>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+
+<!-- Add Category Modal -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="POST">
+        <input type="hidden" name="action" value="add_category">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addCategoryModalLabel">Add New Category</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+                <label class="form-label">Category Name</label>
+                <input type="text" class="form-control" name="category_name" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Add Category</button>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
 {% endblock %}

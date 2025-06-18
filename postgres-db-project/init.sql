@@ -2,7 +2,9 @@ CREATE TABLE Users (
     user_id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    role VARCHAR(10) CHECK (role IN ('admin', 'user'))
+    role VARCHAR(10) CHECK (role IN ('admin', 'user')),
+    failed_attempts INT DEFAULT 0,
+    lockout_until TIMESTAMP
 );
 
 CREATE TABLE ItemCategory (
@@ -14,8 +16,7 @@ CREATE TABLE Item (
     item_id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     quantity INT NOT NULL,
-    category_id INT REFERENCES ItemCategory(category_id),
-    user_id INT REFERENCES Users(user_id)
+    category_id INT REFERENCES ItemCategory(category_id)
 );
 
 CREATE TABLE ItemRequested (
@@ -23,7 +24,9 @@ CREATE TABLE ItemRequested (
     date_of_request TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_id INT REFERENCES Users(user_id),
     item_id INT REFERENCES Item(item_id),
-    reason TEXT
+    quantity INT,
+    reason TEXT,
+    status VARCHAR(20) DEFAULT 'Pending'
 );
 
 CREATE TABLE ItemHistory (
@@ -32,6 +35,7 @@ CREATE TABLE ItemHistory (
     date_of_approve TIMESTAMP,
     user_id INT REFERENCES Users(user_id),
     item_id INT REFERENCES Item(item_id),
+    quantity INT,
     status VARCHAR(10) CHECK (status IN ('Approved', 'Rejected')),
     reason TEXT
 );

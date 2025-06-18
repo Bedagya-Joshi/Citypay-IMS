@@ -15,6 +15,7 @@
                 {% else %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('main.items') }}">Items</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('main.item_taken_history') }}">Item Taken History</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.my_requests') }}">My Requests</a></li>
                 {% endif %}
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a></li>
             </ul>

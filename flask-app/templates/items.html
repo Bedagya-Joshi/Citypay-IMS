@@ -3,5 +3,62 @@
 {% block title %}Items - CityPay IMS{% endblock %}
 {% block content %}
 <h2>Items</h2>
-<!-- Items table/list goes here -->
+
+{% if message %}
+    <div class="alert alert-info">{{ message }}</div>
+{% endif %}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            {% if current_user.role == 'user' %}
+            <th>Request</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[3] }}</td>
+            {% if current_user.role == 'user' %}
+            <td>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#requestModal{{ item[0] }}">Request</button>
+                <!-- Request Modal -->
+                <div class="modal fade" id="requestModal{{ item[0] }}" tabindex="-1" aria-labelledby="requestModalLabel{{ item[0] }}" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <form method="POST">
+                        <input type="hidden" name="item_id" value="{{ item[0] }}">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="requestModalLabel{{ item[0] }}">Request {{ item[1] }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Quantity</label>
+                                <input type="number" class="form-control" name="quantity" min="1" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Reason</label>
+                                <textarea class="form-control" name="reason" required></textarea>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit Request</button>
+                          </div>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
