@@ -1,0 +1,30 @@
+body {
+    background: #f8f9fa;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.nav-link {
+    font-size: 1.1rem;
+    margin-right: 10px;
+}
+
+h2 {
+    margin-bottom: 1.5rem;
+    color: #343a40;
+}
+
+.container {
+    background: #fff;
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}

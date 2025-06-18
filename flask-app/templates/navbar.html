@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">CityPay IMS</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if current_user.role == 'admin' %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.items') }}">Items</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.requested_history') }}">Requested History</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.item_update') }}">Item Update</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.view_users_items') }}">View Users Items</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.administrator') }}">Administrator</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.items') }}">Items</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.item_taken_history') }}">Item Taken History</a></li>
+                {% endif %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
